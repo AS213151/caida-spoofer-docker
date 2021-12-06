@@ -42,5 +42,5 @@ then
 	email="Subject: CAIDA Spoofer test excuted\n"
 	email+="To: $EMAILADDRESS\n\n"
 	email+="$result"
-	echo -ne $email | ssmtp -t
+	echo -ne "$email" | ssmtp -t
 fi
