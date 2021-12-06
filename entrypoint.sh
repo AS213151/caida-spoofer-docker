@@ -18,6 +18,8 @@ HOST_IP=$(curl -s https://ifconfig.me/ip)
 whois_result=$(whois -h whois.cymru.com ${HOST_IP} | sed -n 2p)
 HOST_AS=$(echo $whois_result | cut -d'|' -f 1)
 HOST_ISP=$(echo $whois_result | cut -d'|' -f 3)
+IPv4_RESULT=$(cat /root/result.log | grep -A 3 "IPv4 Result Summary")
+IPv6_RESULT=$(cat /root/result.log | grep -A 5 "IPv6 Result Summary")
 
 # Print results
 echo "=========================="
@@ -27,7 +29,9 @@ result="HOST_IP:      $HOST_IP\n"
 result+="HOST_AS:      $HOST_AS\n"
 result+="HOST_ISP:     $HOST_ISP\n"
 result+="URL_RESULT:   $URL_TEST_RESULT\n"
-echo -ne $result
+result+="$IPv4_RESULT\n"
+result+="$IPv6_RESULT\n"
+echo -ne "$result"
 
 if [ ! -z "$EMAILADDRESS" ]
 then
