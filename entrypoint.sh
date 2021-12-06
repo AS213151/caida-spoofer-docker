@@ -29,8 +29,8 @@ result+="HOST_ISP:     $HOST_ISP\n"
 result+="URL_RESULT:   $URL_TEST_RESULT\n"
 echo -ne $result
 
-if [ ! - z "$EMAILADDRESS" ]
-then 
+if [ ! -z "$EMAILADDRESS" ]
+then
 	# Send results
 	echo "=========================="
 	echo "Sending results..."
