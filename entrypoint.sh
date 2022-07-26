@@ -18,8 +18,8 @@ HOST_IP=$(curl -s https://ifconfig.me/ip)
 whois_result=$(whois -h whois.cymru.com ${HOST_IP} | sed -n 2p)
 HOST_AS=$(echo $whois_result | cut -d'|' -f 1)
 HOST_ISP=$(echo $whois_result | cut -d'|' -f 3)
-IPv4_RESULT=$(cat $LOG_FILE | grep -A 3 "IPv4 Result Summary") | sed "s/>>//"
-IPv6_RESULT=$(cat $LOG_FILE | grep -A 5 "IPv6 Result Summary") | sed "s/>>//"
+IPv4_RESULT=$(cat $LOG_FILE | grep -A 3 "IPv4 Result Summary" | sed "s/>>//") 
+IPv6_RESULT=$(cat $LOG_FILE | grep -A 5 "IPv6 Result Summary" | sed "s/>>//")
 
 # Print results
 echo "=========================="
