@@ -14,6 +14,6 @@ susceptibility to spoofed source address IP packets.
 ## Run
 
 ```
-  docker run --network=host -it -v /etc/caida_spoofer/ssmtp/ssmtp.conf:/etc/ssmtp/ssmtp.conf -e EMAILADDRESS="user@domain.com" --rm caida-spoofer-docker:latest 
+  docker run --network=host -it -v /etc/caida_spoofer/ssmtp/:/etc/ssmtp/ -e EMAILADDRESS="user@domain.com" --rm caida-spoofer-docker:latest 
 ```
 
