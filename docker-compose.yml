@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  spoofer:
+    build: .
+    container_name: caida_spoofer
+    # Set to "no" because the CAIDA test is usually a one-off run
+    restart: "no"
+    
+    networks:
+      bridge-public:
+        # Static IPv6 assignment for the test
+        ipv6_address: 2a06:e881:7301:1::100
+
+    environment:
+      # These variables are pulled from your .env file
+      - EMAIL_TO=${EMAIL_TO}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_DISPLAY_NAME=${SMTP_DISPLAY_NAME}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+
+networks:
+  bridge-public:
+    external: true
+    name: bridge-public
+

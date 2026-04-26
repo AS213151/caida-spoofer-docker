@@ -1,45 +1,27 @@
-FROM alpine:latest
+FROM ubuntu:22.04
 
-# Install all build dependencies
-RUN apk update \
-    && apk add --no-cache --virtual build-dependencies \
-    build-base \
-    gcc \
-    && apk add --no-cache \
-    bash \
-    && apk add --no-cache \
-    protobuf \
-    protobuf-dev \
-    && apk add --no-cache \
-    openssl \
-    openssl-dev \
-    && apk add --no-cache \
-    qt5-qtbase \
-    iputils \
-    tcptraceroute \
-    libpcap \
-    libpcap-dev \
-    whois \
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Added 'jq' to the list of packages
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
     curl \
-    ssmtp && \
-    mkdir /spoofer
+    whois \
+    jq \
+    msmtp \
+    msmtp-mta \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN curl https://www.caida.org/projects/spoofer/downloads/spoofer-1.4.7.tar.gz --output /spoofer/spoofer-1.4.7.tar.gz
+# Add the official CAIDA Spoofer PPA and install the client
+RUN add-apt-repository ppa:spoofer-dev/spoofer -y \
+    && apt-get update \
+    && apt-get install -y spoofer \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY ./entrypoint.sh /spoofer
-RUN sed -i 's/\r//' /spoofer/entrypoint.sh && \
-    chmod +x /spoofer/entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-WORKDIR /spoofer
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["spoofer-prober", "-s1", "-r1"]
 
-# Install CAIDA Spoofer and then cleanup
-RUN tar xzvf spoofer-1.4.7.tar.gz && \
-    cd spoofer-1.4.7 && \
-    ./configure && \
-    make && \
-    make install && \
-    make clean && \
-    cd .. && \
-    rm -rf spoofer-1.4.7 spoofer-1.4.7.tar.gz
-
-ENTRYPOINT ["/spoofer/entrypoint.sh"]
