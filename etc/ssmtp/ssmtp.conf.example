@@ -1,7 +1,0 @@
-root=spoof@domain.com
-mailhub=smtp.gmail.com:465
-FromLineOverride=YES
-AuthUser=authuser@domain.com
-AuthPass=MySecretPassword
-UseTLS=YES
-StartTLS=YES

@@ -1,19 +1,15 @@
-# IP Spoofing Tester v1.4.7
+# CAIDA Spoofer Dockerized with Automated Email Reporting
 
-## About the project
+This project wraps the [CAIDA Spoofer](https://www.caida.org/projects/spoofer/) prober in a Docker container. It automatically runs the spoofing tests, collects network metadata via ipwho.is, and emails the results using AWS SES (via msmtp).
 
-This image will run the CAIDA Spoofer (http://spoofer.caida.org/) to measure the Internet's
-susceptibility to spoofed source address IP packets.
+## 🚀 Features
+- **Ubuntu 22.04 Base**: Uses the official CAIDA PPA.
+- **Auto-Reporting**: Parses CAIDA logs to find the session URL and summary results.
+- **Metadata Enrichment**: Fetches Host IP, ASN, and ISP details via ipwho.is.
+- **SMTP Integration**: Pre-configured for AWS SES with logic to break Gmail message threading.
+- **Cleanup Script**: Includes a rebuild.sh script to handle Docker build cache cleanup.
 
-## Build
-
-```
-  docker build -t caida-spoofer-docker .
-```
-
-## Run
-
-```
-  docker run --network=host -it -v /etc/caida_spoofer/ssmtp/:/etc/ssmtp/ -e EMAILADDRESS="user@domain.com" --rm caida-spoofer-docker:latest 
-```
-
+## 🏃 Usage
+1. Configure your credentials in a `.env` file (see docker-compose.yml for required variables).
+2. Run `chmod +x entrypoint.sh rebuild.sh`.
+3. Execute `./rebuild.sh`.
