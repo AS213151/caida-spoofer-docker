@@ -13,3 +13,11 @@ This project wraps the [CAIDA Spoofer](https://www.caida.org/projects/spoofer/) 
 1. Configure your credentials in a `.env` file (see docker-compose.yml for required variables).
 2. Run `chmod +x entrypoint.sh rebuild.sh`.
 3. Execute `./rebuild.sh`.
+
+## 🗓 Scheduling
+To run the test automatically every week (Sunday at 4:00 AM), install the provided cron file:
+
+```bash
+sudo cp caida-spoofer.cron /etc/cron.d/caida-spoofer
+sudo chmod 644 /etc/cron.d/caida-spoofer
+```

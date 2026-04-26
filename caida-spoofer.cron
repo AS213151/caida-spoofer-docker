@@ -1,0 +1,2 @@
+# Run the CAIDA Spoofer test every Sunday at 4:00 AM
+0 4 * * 0 root /usr/bin/docker start caida_spoofer
